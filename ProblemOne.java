@@ -9,7 +9,8 @@ public class ProblemOne {
 
     static Thread[] threads = new Thread[NUM_THREADS];
     public static void main(String[] args) throws InterruptedException {
-        stack = new LockFreeStack<Integer>();
+        // stack = new LockFreeStack<Integer>();
+        stack = new EliminationBackoffStack<Integer>();
         long start, end;
 
         for (int i=0; i<INIT_SIZE; i++){
