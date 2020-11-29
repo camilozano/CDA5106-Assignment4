@@ -46,7 +46,7 @@ public class LockFreeStack<T> {
         }
     }
 
-    private void incrementCounter(){
+    protected void incrementCounter(){
         if (this.useAtomicOpsCounter){
             this.atomicNumOps.incrementAndGet();
         }

@@ -5,14 +5,23 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
 public class EliminationBackoffStack<T> extends LockFreeStack<T>{
-    static final int capacity = 50000;
-    EliminationArray<T> eliminationArray = new EliminationArray<T>(capacity);
-    static ThreadLocal<RangePolicy> policy = new ThreadLocal<RangePolicy>() {
-        protected synchronized RangePolicy initialValue(){
-            return new RangePolicy(capacity);
-        }
-    };
+    int capacity;
+    EliminationArray<T> eliminationArray;
+    static ThreadLocal<RangePolicy> policy; 
 
+    public EliminationBackoffStack(int capacity){
+        this(capacity, 1);
+    }
+
+    public EliminationBackoffStack(int capacity, int duration){
+        this.capacity = capacity;
+        eliminationArray = new EliminationArray<T>(capacity, duration);
+        policy = new ThreadLocal<RangePolicy>() {
+            protected synchronized RangePolicy initialValue(){
+                return new RangePolicy(capacity);
+            }
+        };
+    }
 
     protected boolean tryPush(Node<T> node){
         Node<T> oldTop = top.get();
@@ -38,10 +47,12 @@ public class EliminationBackoffStack<T> extends LockFreeStack<T>{
         Node<T> node = new Node<T>(value);
         while (true){
             if (this.tryPush(node)){
+                this.incrementCounter();
                 return;
             } else try {
                 T otherValue = eliminationArray.visit(value, rangePolicy.getRange());
                 if (otherValue == null){
+                    this.incrementCounter();
                     rangePolicy.recordEliminationSuccess();
                     return;
                 }
@@ -56,11 +67,13 @@ public class EliminationBackoffStack<T> extends LockFreeStack<T>{
         while (true){
             Node<T> returnNode = this.tryPop();
             if (returnNode != null){
+                this.incrementCounter();
                 return returnNode.value;
             } else try {
                 T otherValue = eliminationArray.visit(null, rangePolicy.getRange());
                 if (otherValue != null){
                     rangePolicy.recordEliminationSuccess();
+                    this.incrementCounter();
                     return otherValue;
                 }
             } catch (TimeoutException ex) {
@@ -95,13 +108,13 @@ class RangePolicy {
 }
 
 class EliminationArray<T>{
-    // TODO: Figure out duration
-    private static final int duration = 1;
+    int duration;
     LockFreeExchanger<T>[] exchanger;
     Random random;
 
     @SuppressWarnings("unchecked")
-    public EliminationArray(int capacity){
+    public EliminationArray(int capacity, int duration){
+        this.duration = duration;
         exchanger = (LockFreeExchanger<T>[]) new LockFreeExchanger[capacity];
         for (int i=0; i< capacity; i++){
             exchanger[i] = new LockFreeExchanger<T>();
