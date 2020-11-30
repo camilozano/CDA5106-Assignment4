@@ -57,7 +57,9 @@ public class LockFreeStack<T> {
 
     public int getNumOps(){
         if (this.useAtomicOpsCounter){
-            return this.atomicNumOps.get();
+            int res = this.atomicNumOps.get();
+            this.incrementCounter();
+            return res;
         }
         return this.numOps;
     }
