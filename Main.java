@@ -7,6 +7,8 @@ public class Main {
         int duration = 1;
         Runner run = new Runner(OPS_PER_THREAD, NUM_THREADS, INIT_SIZE, duration);
         
-        run.run(Runner.STACK_TYPE.ELIM_STACK);
+        // run.run(Runner.STACK_TYPE.ELIM_STACK);
+        // run.run(Runner.STACK_TYPE.LOCK_STACK);
+        run.one_to_n_threads();
     }
 }

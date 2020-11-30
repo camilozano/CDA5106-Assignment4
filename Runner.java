@@ -59,8 +59,31 @@ public class Runner {
         long elapsedTime = end-start;
 
         // System.out.println(stack.getNumOps());
-        System.out.println(elapsedTime);
+        // System.out.println(elapsedTime);
         return elapsedTime;
+
+    }
+
+
+    public void one_to_n_threads() throws InterruptedException{
+
+        int num_threads = this.NUM_THREADS;
+
+        long[] lockTimeList = new long[num_threads];
+        long[] elimTimeList = new long[num_threads];
+
+        for (int i=0; i<num_threads; i++){
+            this.NUM_THREADS = i+1;
+            lockTimeList[i] = this.run(STACK_TYPE.LOCK_STACK);
+            elimTimeList[i] = this.run(STACK_TYPE.ELIM_STACK);
+        }
+        
+        System.out.println("\tLockFreeStack\tElimBackoffStack");
+        
+        for (int i=0; i<num_threads; i++){
+            System.out.printf("%d\t\t%d\t\t%d\n" ,i+1, lockTimeList[i], elimTimeList[i]);
+        }
+
 
     }
 

@@ -8,7 +8,7 @@ public class LockFreeStack<T> {
     AtomicInteger atomicNumOps = new AtomicInteger(0);
     int numOps = 0;
 
-    final boolean useAtomicOpsCounter = false;
+    final boolean useAtomicOpsCounter = true;
 
     public void push(T value){
         Node<T> node = new Node<T>(value);
