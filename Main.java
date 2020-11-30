@@ -6,9 +6,9 @@ public class Main {
         int duration = 1;
         int num_retries = 3;
 
-        int ratioPush = 33;
-        int ratioPop = 33;
-        int ratioSize = 33;
+        int ratioPush = 50;
+        int ratioPop = 25;
+        int ratioSize = 25 ;
 
         Runner run = new Runner(OPS_PER_THREAD, NUM_THREADS, INIT_SIZE, duration, ratioPush, ratioPop, ratioSize);
         
