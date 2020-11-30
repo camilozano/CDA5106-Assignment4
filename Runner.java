@@ -65,7 +65,7 @@ public class Runner {
     }
 
 
-    public void one_to_n_threads() throws InterruptedException{
+    public void one_to_n_threads(int numTries) throws InterruptedException{
 
         int num_threads = this.NUM_THREADS;
 
@@ -76,6 +76,20 @@ public class Runner {
             this.NUM_THREADS = i+1;
             lockTimeList[i] = this.run(STACK_TYPE.LOCK_STACK);
             elimTimeList[i] = this.run(STACK_TYPE.ELIM_STACK);
+
+            long lockTimeAvg = 0;
+            long elimTimeAvg = 0;
+            for (int j=0; j<numTries; j++){
+                lockTimeAvg += this.run(STACK_TYPE.LOCK_STACK);
+                elimTimeAvg += this.run(STACK_TYPE.ELIM_STACK);
+            }
+            lockTimeAvg /= (long)numTries;
+            elimTimeAvg /= (long)numTries;
+
+            lockTimeList[i] = lockTimeAvg;
+            elimTimeList[i] = elimTimeAvg;
+
+
         }
         
         System.out.println("\tLockFreeStack\tElimBackoffStack");
