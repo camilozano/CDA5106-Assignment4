@@ -108,7 +108,7 @@ public class Runner {
         System.out.println("\tLockFreeStack\tElimBackoffStack");
         
         for (int i=0; i<num_threads; i++){
-            System.out.printf("%d\t\t%d\t\t%d\n" ,i+1, lockTimeList[i], elimTimeList[i]);
+            System.out.printf("%d\t\t%d ms\t\t%d ms\n" ,i+1, lockTimeList[i], elimTimeList[i]);
         }
 
 

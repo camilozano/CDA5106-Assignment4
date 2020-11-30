@@ -12,7 +12,10 @@ public class Main {
 
         Runner run = new Runner(OPS_PER_THREAD, NUM_THREADS, INIT_SIZE, duration, ratioPush, ratioPop, ratioSize);
         
+        long res = run.run(Runner.STACK_TYPE.LOCK_STACK, Runner.RUN_TYPE.RAND);
+        System.out.printf("Problem 1:\n\t%d ms\n",res);
+
+        System.out.println("Problem 2:");
         run.one_to_n_threads(num_retries, Runner.RUN_TYPE.RATIO);
-        // System.out.println(run.run(Runner.STACK_TYPE.ELIM_STACK, Runner.RUN_TYPE.RATIO));
     }
 }
