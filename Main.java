@@ -12,7 +12,7 @@ public class Main {
 
         Runner run = new Runner(OPS_PER_THREAD, NUM_THREADS, INIT_SIZE, duration, ratioPush, ratioPop, ratioSize);
         
-        //run.one_to_n_threads(num_retries, Runner.RUN_TYPE.RATIO);
-        System.out.println(run.run(Runner.STACK_TYPE.ELIM_STACK, Runner.RUN_TYPE.RATIO));
+        run.one_to_n_threads(num_retries, Runner.RUN_TYPE.RATIO);
+        // System.out.println(run.run(Runner.STACK_TYPE.ELIM_STACK, Runner.RUN_TYPE.RATIO));
     }
 }
