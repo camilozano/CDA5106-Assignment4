@@ -31,7 +31,7 @@ jobs:
           java-version: 11
           
       - name: Compile Java
-        run: javac javac EliminationBackoffStack.java LockFreeStack.java Runner.java Main.java
+        run: javac EliminationBackoffStack.java LockFreeStack.java Runner.java Main.java
       - name: Run Main
         run: java Main
 
