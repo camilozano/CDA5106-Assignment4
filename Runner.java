@@ -15,9 +15,9 @@ public class Runner {
     static final int LOCK_STACK = 0, ELIM_STACK = 1;
 
     public Runner(int OPS_PER_THREAD, int NUM_THREADS, int INIT_SIZE, int duration, double ratioPush, double ratioPop, double ratioSize){
-        this.OPS_PER_THREAD = 150000;
-        this.NUM_THREADS = 8;
-        this.INIT_SIZE = 50000;
+        this.OPS_PER_THREAD = OPS_PER_THREAD;
+        this.NUM_THREADS = NUM_THREADS;
+        this.INIT_SIZE = INIT_SIZE;
         this.duration = duration;
         this.threads = new Thread[NUM_THREADS];
 
