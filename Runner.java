@@ -14,16 +14,16 @@ public class Runner {
     
     static final int LOCK_STACK = 0, ELIM_STACK = 1;
 
-    public Runner(int OPS_PER_THREAD, int NUM_THREADS, int INIT_SIZE, int duration, int ratioPush, int ratioPop, int ratioSize){
+    public Runner(int OPS_PER_THREAD, int NUM_THREADS, int INIT_SIZE, int duration, double ratioPush, double ratioPop, double ratioSize){
         this.OPS_PER_THREAD = 150000;
         this.NUM_THREADS = 8;
         this.INIT_SIZE = 50000;
         this.duration = duration;
         this.threads = new Thread[NUM_THREADS];
 
-        this.pushOps = Double.valueOf(OPS_PER_THREAD*(ratioPush/100.0)).longValue();
-        this.popOps = Double.valueOf(OPS_PER_THREAD*(ratioPop/100.0)).longValue();
-        this.sizeOps = Double.valueOf(OPS_PER_THREAD*(ratioSize/100.0)).longValue();
+        this.pushOps = Double.valueOf(OPS_PER_THREAD*ratioPush).longValue();
+        this.popOps = Double.valueOf(OPS_PER_THREAD*ratioPop).longValue();
+        this.sizeOps = Double.valueOf(OPS_PER_THREAD*ratioSize).longValue();
 
         long diff = OPS_PER_THREAD - (this.pushOps + this.popOps + this.sizeOps);
         if (diff != 0){
